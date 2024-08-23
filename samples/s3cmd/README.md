@@ -54,12 +54,12 @@ Replace `filename` with the actual file name. The output should indicate that th
 To generate the public URLs for all the files in a folder, you can use the following command:
 
 ```bash
-s3cmd ls s3://wn-cdp-object-storage/files/campaigns/line-form/ | awk '{sub("s3://wn-cdp-object-storage", ""); print "https://wn-cdp-object-storage.ap-south-1.linodeobjects.com" $4}' > s3_links.txt
+s3cmd ls s3://your-bucket-name/your-folder-name/ | awk '{sub("s3://your-bucket-name", ""); print "https://your-bucket-name.ap-south-1.linodeobjects.com" $4}' > s3_links.txt
 ```
 
 ### Explanation:
 - This command lists all files in the specified folder.
-- The `awk` command processes each line, removing the `s3://wn-cdp-object-storage` prefix from the file paths and appending them to the base URL (`https://wn-cdp-object-storage.ap-south-1.linodeobjects.com`).
+- The `awk` command processes each line, removing the `s3://your-bucket-name` prefix from the file paths and appending them to the base URL (`https://your-bucket-name.ap-south-1.linodeobjects.com`).
 - The result is saved in the `s3_links.txt` file, which contains the public URLs of all files.
 
 ## 6. Delete All Files in a Specific Folder
@@ -67,7 +67,7 @@ s3cmd ls s3://wn-cdp-object-storage/files/campaigns/line-form/ | awk '{sub("s3:/
 To delete all the files in a specific folder in your S3 bucket, use the following command:
 
 ```bash
-s3cmd del s3://wn-cdp-object-storage/files/campaigns/line-form/ --recursive
+s3cmd del s3://your-bucket-name/your-folder-name/ --recursive
 ```
 
 ### Explanation:
