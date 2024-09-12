@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+  labels:
+    app: flask-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: flask-container
+        image: 13angs/flask-liveness-readiness:latest
+        ports:
+        - containerPort: 8080
+        # Liveness probe: Kubernetes will restart the container if this fails
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 10  # Delay before starting the first probe
+          periodSeconds: 5         # Check every 5 seconds
+          timeoutSeconds: 3        # Fail if no response within 3 seconds
+          failureThreshold: 3      # Restart container after 3 consecutive failures
+        # Readiness probe: Kubernetes will not send traffic to the container if this fails
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 5   # Delay before starting the first readiness check
+          periodSeconds: 3         # Check every 3 seconds
+          timeoutSeconds: 1        # Fail if no response within 1 second
+          failureThreshold: 3      # Mark unready after 3 consecutive failures
