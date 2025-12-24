@@ -4,3 +4,5 @@ URLs.txt
 url_check.log
 venv/
 .env
+users.json
+exported_users.json
